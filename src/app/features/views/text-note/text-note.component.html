@@ -1,4 +1,6 @@
 <div>
-  <app-user-icon [picture]="getUserPictureSrc()"></app-user-icon>
-  <span>{{ event!.content }}</span>
+  <app-user-icon [picture]="userPicture"></app-user-icon>
+  <span class="note-user-name">{{ userName }}</span>
+  <span class="note-created-at">{{ created_at }}</span>
+  <span>{{ event.content }}</span>
 </div>

@@ -16,18 +16,18 @@ export class UserProfileService {
   >();
 
   constructor(private eventService: EventService) {
+    console.log('UserProfileService is under construction');
+
     this.eventService.forwardReqObservable.subscribe((packet: EventPacket) => {
       let event = packet.event;
-
       if (!this.userProfileMap.has(event.pubkey)) {
-        // リクエストため込んだほうがよさそう
         this.eventService.reqMetaData(event.pubkey);
       }
     });
 
     this.eventService.backwardReqObservable.subscribe((packet: EventPacket) => {
       let event: Event = packet.event;
-
+      console.log('metadata coming');
       switch (event.kind) {
         case Kind.Metadata:
           let userProfile: Content.Metadata = JSON.parse(event.content);
@@ -41,17 +41,7 @@ export class UserProfileService {
     });
   }
 
-  getUserPictureSrc(pubkey: string): string {
-    let userProfile: Content.Metadata | undefined =
-      this.userProfileMap.get(pubkey);
-
-    if (userProfile != null && userProfile.picture != null) {
-      console.log(userProfile.picture);
-      return userProfile.picture;
-    } else {
-      // まだMetadataを取得する前に表示してundefinedになってるっぽい
-      console.log(userProfile);
-      return '';
-    }
+  getUserProfile(pubkey: string): Content.Metadata {
+    return this.userProfileMap.get(pubkey) || {};
   }
 }

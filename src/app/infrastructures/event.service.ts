@@ -31,10 +31,11 @@ export class EventService {
   }
 
   reqMetaData(pubkey: string) {
+    console.log('MetaData request was emited');
     this.rxBackwardReq.emit({
       kinds: [Kind.Metadata],
       authors: [pubkey],
-      limit: 10,
+      limit: 1,
     });
   }
 
