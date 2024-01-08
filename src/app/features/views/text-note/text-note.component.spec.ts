@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventListComponent } from './event-list.component';
+import { TextNoteComponent } from './text-note.component';
 
-describe('EventListComponent', () => {
-  let component: EventListComponent;
-  let fixture: ComponentFixture<EventListComponent>;
+describe('TextNoteComponent', () => {
+  let component: TextNoteComponent;
+  let fixture: ComponentFixture<TextNoteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EventListComponent]
+      imports: [TextNoteComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(EventListComponent);
+    fixture = TestBed.createComponent(TextNoteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
