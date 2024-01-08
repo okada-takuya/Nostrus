@@ -22,6 +22,10 @@ export class TextNoteComponent implements OnInit {
   constructor(private userProfileService: UserProfileService) {}
 
   ngOnInit() {
+    // TODO: UserProfileの変動にサブスクしないとたぶん画面に出ないと思われる
+    // TODO: MetaData、EventDataのストレージサービスを作る
+    // TODO: 各ストレージサービス（特にMetaData）にキーでデータを問い合わせて、
+    //       あればすぐデータ取得、なければサブスクしてまつようにする⇒async/awaitでよくないか？
     let profile = this.userProfileService.getUserProfile(this.event.pubkey);
     this.userName = profile.name || 'ななしさん';
     this.userPicture = profile.picture || '';
