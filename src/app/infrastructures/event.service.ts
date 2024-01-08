@@ -31,7 +31,11 @@ export class EventService {
   }
 
   reqMetaData(pubkey: string) {
-    this.rxBackwardReq.emit({ kinds: [Kind.Metadata], authors: [pubkey] });
+    this.rxBackwardReq.emit({
+      kinds: [Kind.Metadata],
+      authors: [pubkey],
+      limit: 10,
+    });
   }
 
   reqTextNote() {

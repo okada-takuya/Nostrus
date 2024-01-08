@@ -20,6 +20,7 @@ export class UserProfileService {
       let event = packet.event;
 
       if (!this.userProfileMap.has(event.pubkey)) {
+        // リクエストため込んだほうがよさそう
         this.eventService.reqMetaData(event.pubkey);
       }
     });

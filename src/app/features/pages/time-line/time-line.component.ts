@@ -27,7 +27,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
     this.subscription = this.eventService.forwardReqObservable.subscribe(
       (packet: EventPacket) => {
         let event = packet.event;
-        this.events.push(event);
+        this.events.unshift(event);
       }
     );
   }
