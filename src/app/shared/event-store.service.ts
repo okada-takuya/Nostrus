@@ -6,6 +6,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { EventPacket } from 'rx-nostr';
 
 // TODO: なんのEventのサービス化で特化したほうが良い
+// TODO: Metadataはアプリ内一元管理でいいけど、TimelineむけEventはそうでもない。
 @Injectable({
   providedIn: 'root',
 })
