@@ -22,14 +22,14 @@ export class EventStoreService {
     );
   }
 
-  getEventById(id: string): Observable<Event> {
+  observeEventOf(id: string): Observable<Event> {
     // Mapから取得可能だった場合に、通常のSubjectでは再配信不可能なため。
     const eventSubject: ReplaySubject<Event> = new ReplaySubject<Event>();
-    const event = this.eventMap.get(id);
+    const event: Event | undefined = this.eventMap.get(id);
     if (event) {
       eventSubject.next(event);
     } else {
-      // TODO event 1件読みのNostrAPIへのemit
+      // TODO event 1件読みのNostrAPIへのemit->subscribeしてsubjectに流す
     }
     return eventSubject;
   }

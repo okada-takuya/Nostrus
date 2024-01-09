@@ -39,11 +39,12 @@ export class NostrApiService {
 
     this.eventPacketsObservable = this.rxNostr
       .use(eventsReq.pipe(bufferTime(1000, null, 10), batch()))
+      // TODO: nostterのようにEventの参照イベントのリクエストはtapで投げたほうが良いと思われる
+      // Refers: https://github.com/SnowCait/nostter/blob/2efe229a5c2388e5b12e77cd6a86dd24b5b1236c/web/src/lib/timelines/MainTimeline.ts#L82
       .pipe(uniq());
 
     this.metadetaPacketsObservable = this.rxNostr.use(
       metadataReq.pipe(bufferTime(1000, null, 10), batch())
     );
-    // .subscribe();
   }
 }
