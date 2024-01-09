@@ -13,28 +13,28 @@ export class MetadataStoreService {
     string,
     Content.Metadata
   >();
-  readonly incomingMetadataObservable: ReplaySubject<Content.Metadata> = new ReplaySubject();
+  readonly incomingMetadata$: ReplaySubject<Content.Metadata> = new ReplaySubject();
 
   constructor(private nostrApiService: NostrApiService) {
-    this.nostrApiService.metadetaPacketsObservable.subscribe(
+    this.nostrApiService.metadetaPackets$.subscribe(
       (packet: EventPacket) => {
         const event: Event = packet.event;
         const metadata: Content.Metadata = JSON.parse(event.content);;
         this.eventMap.set(event.pubkey, metadata);
-        this.incomingMetadataObservable.next(metadata);
+        this.incomingMetadata$.next(metadata);
       }
     );
   }
 
   observeMetadataOf(pubkey: string): Observable<Content.Metadata> {
     // Mapから取得可能だった場合に、通常のSubjectでは再配信不可能なため。
-    const metadataSubject: ReplaySubject<Content.Metadata> = new ReplaySubject<Content.Metadata>();
+    const metadata$: ReplaySubject<Content.Metadata> = new ReplaySubject<Content.Metadata>();
     const metadata: Content.Metadata | undefined = this.eventMap.get(pubkey);
     if (metadata) {
-      metadataSubject.next(metadata);
+      metadata$.next(metadata);
     } else {
-      // TODO metadata 1件読みのNostrAPIへのemit
+      // TODO metadata 1件読みのNostrAPIへのemit->subscribeしてsubjectに流す
     }
-    return metadataSubject;
+    return metadata$;
   }
 }
