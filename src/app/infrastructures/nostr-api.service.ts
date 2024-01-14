@@ -29,7 +29,9 @@ export class NostrApiService {
   private metadataReq = createRxBackwardReq();
   private eventsReq = createRxForwardReq();
 
-  constructor(private eventStoreService: EventStoreService) {
+  constructor() {
+    this.rxNostr.setDefaultRelays(this.DEFAULT_RELAY_URLS);
+
     const allMessage$ = this.rxNostr.createAllMessageObservable();
     allMessage$.pipe(filterByType('NOTICE')).subscribe((packet) => {
       console.warn('[rx-nostr notice]', packet);

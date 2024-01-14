@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 
-import { Event, Content } from 'nostr-typedef';
+import { Event } from 'nostr-typedef';
 import { UserIconComponent } from '../user-icon/user-icon.component';
-import { UserProfileService } from '../../../shared/user-profile.service';
-import { throwError } from 'rxjs';
+import { MetadataStoreService } from '../../../shared/metadata-store.service';
 
 @Component({
   selector: 'app-text-note',
@@ -19,16 +18,20 @@ export class TextNoteComponent implements OnInit {
   userPicture: string = '';
   created_at: string = '';
 
-  constructor(private userProfileService: UserProfileService) {}
+  constructor(private metadataStoreService: MetadataStoreService) {}
 
   ngOnInit() {
     // TODO: UserProfileの変動にサブスクしないとたぶん画面に出ないと思われる
     // TODO: MetaData、EventDataのストレージサービスを作る
     // TODO: 各ストレージサービス（特にMetaData）にキーでデータを問い合わせて、
     //       あればすぐデータ取得、なければサブスクしてまつようにする⇒async/awaitでよくないか？
-    let profile = this.userProfileService.getUserProfile(this.event.pubkey);
-    this.userName = profile.name || 'ななしさん';
-    this.userPicture = profile.picture || '';
+    this.metadataStoreService
+      .observeMetadataOf(this.event.pubkey)
+      .subscribe((metadata) => {
+        this.userName = metadata.name || 'ななしさん';
+        this.userPicture = metadata.picture || '';
+      });
+
     this.created_at = TextNoteComponent.convertUnixTimestampToDateTime(
       this.event.created_at
     );

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { UserProfileService } from '../../../shared/user-profile.service';
 
 @Component({
   selector: 'app-user-icon',
